@@ -1,0 +1,17 @@
+# Fichier de conditions aux limites
+# Format : TYPE   nom_groupe_gmsh   [valeur si applicable]
+#
+# Types disponibles :
+#   ENCASTREMENT_XY  → bloque ux et uy
+#   ENCASTREMENT_X   → bloque ux seulement
+#   ENCASTREMENT_Y   → bloque uy seulement
+#   FORCE_X          → force en x (N), répartie sur les noeuds du groupe
+#   FORCE_Y          → force en y (N), répartie sur les noeuds du groupe
+#
+# Les noms de groupes doivent correspondre exactement
+# aux Physical Curves définis dans GMSH
+ 
+ENCASTREMENT_XY   encastrement
+FORCE_X           force           1000.0
+FORCE_Y           force           -500.0
+ 
