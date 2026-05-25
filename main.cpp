@@ -53,6 +53,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
  
-    std::cout << "\nLecture terminée, prêt pour la MEF." << std::endl;
+    std::cout << "\nLecture terminee, pret pour la MEF." << std::endl;
     return 0;
 }
