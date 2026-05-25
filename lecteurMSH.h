@@ -224,6 +224,6 @@ void appliquerConditions(Maillage& m, const std::string& cheminConfig) {
         if (c.ux_bloque || c.uy_bloque) nbBloques++;
         if (c.force_x != 0 || c.force_y != 0) nbForces++;
     }
-    std::cout << "Noeuds bloqués : " << nbBloques << std::endl;
-    std::cout << "Noeuds chargés : " << nbForces  << std::endl;
+    std::cout << "Noeuds bloques : " << nbBloques << std::endl;
+    std::cout << "Noeuds charges : " << nbForces  << std::endl;
 }
