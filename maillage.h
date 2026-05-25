@@ -37,7 +37,6 @@ struct ConditionNoeud {
 struct Maillage {
     std::vector<Noeud>          noeuds;
     std::vector<Element>        elements;     // tous les éléments (lignes + surfaces)
-    std::vector<Element>        triangles;    // éléments T3 uniquement (domaine)
     std::vector<GroupePhysique> groupes;
     std::map<int, std::string>  idVersNomGroupe;
 
@@ -46,13 +45,25 @@ struct Maillage {
 
     // Afficher un résumé
     void afficher() const {
-        std::cout << "\n=== MAILLAGE ===" << std::endl;
-        std::cout << "Noeuds    : " << noeuds.size()    << std::endl;
-        std::cout << "Triangles : " << triangles.size() << std::endl;
+        std::cout << "=== MAILLAGE ===" << std::endl;
+        std::cout << "Noeuds    : "       << noeuds.size()    << std::endl;
+        std::cout << "Type d'elements : " << typeElem(elements[0].type) << std::endl;
+        std::cout << "Elements  : "       << elements.size()  << std::endl;
         std::cout << "Groupes physiques :" << std::endl;
         for (auto& g : groupes) {
-            std::cout << "  [" << g.id << "] dim=" << g.dimension
-                      << " nom=\"" << g.nom << "\"" << std::endl;
+            std::cout << "  [" << g.id << "] dim = " << g.dimension
+                      << " nom : \"" << g.nom << "\"" << std::endl;
+        }
+    }
+
+    std::string typeElem(int type){
+        switch (type) {
+            case 1:  return "ligne";   // ligne
+            case 2:  return "T3";      // T3
+            case 3:  return "Q4";      // Q4
+            case 9:  return "T6";      // T6
+            case 15: return "point";   // point
+            default: return "inconnu";  // inconnu
         }
     }
 };
