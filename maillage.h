@@ -45,18 +45,18 @@ struct Maillage {
 
     // Afficher un résumé
     void afficher() const {
-        std::cout << "=== MAILLAGE ===" << std::endl;
-        std::cout << "Noeuds    : "       << noeuds.size()    << std::endl;
-        std::cout << "Type d'elements : " << typeElem(elements[0].type) << std::endl;
-        std::cout << "Elements  : "       << elements.size()  << std::endl;
+        std::cout << "===== MAILLAGE =====" << std::endl;
+        std::cout << "Noeuds            : "       << noeuds.size()    << std::endl;
+        std::cout << "Type d'elements   : " << typeElem(elements[elements.size()-1].type) << std::endl;
+        std::cout << "Elements          : "       << elements.size()  << std::endl;
         std::cout << "Groupes physiques :" << std::endl;
         for (auto& g : groupes) {
-            std::cout << "  [" << g.id << "] dim = " << g.dimension
+            std::cout << "    [" << g.id << "] dim = " << g.dimension
                       << " nom : \"" << g.nom << "\"" << std::endl;
         }
     }
 
-    std::string typeElem(int type){
+    std::string typeElem(int type) const {
         switch (type) {
             case 1:  return "ligne";   // ligne
             case 2:  return "T3";      // T3

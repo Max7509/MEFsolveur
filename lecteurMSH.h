@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <algorithm>
 
+
 // ============================================================
 //  Nombre de noeuds par type d'élément GMSH
 // ============================================================
@@ -70,7 +71,7 @@ Maillage lireMSH(const std::string& chemin) {
         }
 
         // ── $Nodes ────────────────────────────────────────────
-        else if (ligne == "$Nodes") {
+        else if (ligne == "$Nodes" || ligne == "$ParametricNodes") { 
             std::getline(fichier, ligne);
             int nbNoeuds = std::stoi(trim(ligne));
 
@@ -104,11 +105,12 @@ Maillage lireMSH(const std::string& chemin) {
 
                 // Lire les tags (le premier est le groupe physique)
                 e.groupe = -1;
+                std::vector<int> tags(nbTags);
                 for (int t = 0; t < nbTags; t++) {
-                    int tag;
-                    ss >> tag;
-                    if (t == 0) e.groupe = tag;
-                }
+                    ss >> tags[t];
+                }        
+                if (nbTags >= 2) e.groupe = tags[1];  // tag physique = index 1
+                else if (nbTags == 1) e.groupe = tags[0];
 
                 // Lire les indices des noeuds
                 int nn = nNoeudsParType(e.type);
@@ -122,11 +124,6 @@ Maillage lireMSH(const std::string& chemin) {
 
                 e.id = k;
                 m.elements.push_back(e);
-
-                // Stocker les triangles séparément
-                if (e.type == GMSH_T3 || e.type == GMSH_T6) {
-                    m.triangles.push_back(e);
-                }
             }
         }
     }
@@ -226,4 +223,22 @@ void appliquerConditions(Maillage& m, const std::string& cheminConfig) {
     }
     std::cout << "Noeuds bloques : " << nbBloques << std::endl;
     std::cout << "Noeuds charges : " << nbForces  << std::endl;
+}
+
+
+
+Maillage lectureInput(const std::string& cheminMSH, const std::string& cheminConfig) {
+    try {
+        // 1. Lire le maillage
+        Maillage m = lireMSH(cheminMSH);
+        m.afficher();
+ 
+        // 2. Appliquer les conditions aux limites
+        appliquerConditions(m, cheminConfig);
+        return m;
+ 
+    } catch (const std::exception& e) {
+        std::cerr << "Erreur : " << e.what() << std::endl;
+        return Maillage();
+    }
 }
