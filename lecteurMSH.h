@@ -217,7 +217,7 @@ void appliquerConditions(Maillage& m, const std::string& cheminConfig) {
             }
         }
     }
-
+//fgsdf
     std::cout << "\n=== CONDITIONS AUX LIMITES ===" << std::endl;
     int nbBloques = 0, nbForces = 0;
     for (auto& c : m.conditions) {
